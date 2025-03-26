@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import GetLocation from "./GetLocation";
 import CalcDistance from "./CalcDistance";
 import Nav from './Nav';
+import { User } from './User';
+import RecentActivity from './RecentActivity';
 
 function Main() {
 
   const [restaurants, setRestaurants] = useState([]);
   const [p2r, setP2R] = useState(0);
   const location = GetLocation();
-  let map;
+  const { user, setUser } = useContext(User);
+  //let map;
 
   useEffect(() => {
 
@@ -36,14 +39,9 @@ function Main() {
       const { places } = await Place.searchNearby(request);
 
       if (places.length) {
-        //console.log(places);
 
         setRestaurants(places);
         setP2R(CalcDistance(location.lat, location.lng, places[0].location.lat(), places[0].location.lng()));
-
-        // places.forEach((place) => {
-        //     console.log(place.displayName);
-        // });
 
       } else {
         console.log("No results");
@@ -67,7 +65,8 @@ function Main() {
       <>
         <h2>Proximity to Ramen</h2>
 
-        <h3>Your current location:</h3>
+        <h3>{user ? `Welcome ${user.displayName}!` : 'Your current location:'}</h3>
+
         lat: {location.lat.toFixed(4)}, long: {location.lng.toFixed(4)}
 
         <h3>Your proximity to ramen (p2r):</h3>
@@ -84,6 +83,10 @@ function Main() {
           })}
         </div>
 
+        <div>
+          <RecentActivity />
+        </div>
+
       </>
 
     );
@@ -91,7 +94,7 @@ function Main() {
   } else {
 
     return (
-      <p>No results? Settings > Privacy & Security > Location Services</p>
+      <p>No results? Settings &gt; Privacy & Security &gt; Location Services</p>
     );
   }
 

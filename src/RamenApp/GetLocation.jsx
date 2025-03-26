@@ -14,19 +14,20 @@ function GetLocation() {
         console.error("Geolocation is not supported by this browser.");
       }
     }
-  
+
     function showPosition(position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      setLocation({lat: position.coords.latitude,
-                   lng: position.coords.longitude,
-                  });
+      setLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
 
       // Use latitude and longitude as needed
       //console.log("Latitude: " + latitude + ", Longitude: " + longitude);
     }
-  
+
     function showError(error) {
       switch (error.code) {
         case error.PERMISSION_DENIED:

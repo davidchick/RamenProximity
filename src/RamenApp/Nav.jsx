@@ -40,7 +40,7 @@ function Nav(props) {
   useEffect(() => {
 
     const unregisteredAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-      //console.log(user.uid);
+
       setUser(user);
 
     });
@@ -49,20 +49,8 @@ function Nav(props) {
 
   }, [user]);
 
-  //console.log(user);
 
   const saveP2R = async () => {
-    //console.log('save!');
-
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      //console.log(docSnap.data());
-    } else {
-      //console.log('adding user');
-      await setDoc(doc(db, "users", user.uid), {});
-    }
 
     const docRef2 = await addDoc(collection(db, "users", user.uid, "p2r-data"), {
       displayName: user.displayName,
@@ -73,7 +61,7 @@ function Nav(props) {
       userLng: userLng,
       p2r: p2r,
       timestamp: new Date(),
-  });
+    });
 
   }
 
@@ -82,14 +70,12 @@ function Nav(props) {
 
     return (
       <>
-        {/* <p>Welcome <b>{user.displayName}!</b> <a onClick={
-          () => { firebase.auth().signOut() }
-        }>Log out</a></p> */}
-        <button id="save-p2r" onClick={() => saveP2R()}>Save</button>
-        {/* <img src={user.photoURL} />
-        <h2>Firestore:</h2> */}
+        <div className='recents'>
+          <div className='line-item'><button id="refresh" onClick={() => location.reload()}>Refresh</button></div>
+          <div className='line-item'><button id="savep2r" onClick={() => saveP2R()}>Save</button></div>
+          <div className='line-item'><button id="signout" onClick={() => { firebase.auth().signOut() }}>Log out</button></div>
+        </div>
       </>
-
     )
 
   } else {
@@ -97,7 +83,6 @@ function Nav(props) {
     return (
       <>
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-        {/* <h2>Firestore:</h2> */}
       </>
     )
 

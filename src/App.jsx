@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './App.css'
-import Main from './RamenApp/Main'
-import { User } from './RamenApp/User'
+import './App.css';
+import Main from './RamenApp/Main';
+import { User } from './RamenApp/User';
 
 
 function App() {
@@ -18,4 +18,4 @@ function App() {
 
 }
 
-export default App
+export default App;

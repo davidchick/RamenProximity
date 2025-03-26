@@ -10,7 +10,25 @@
   padding: 4px;
 }
 
-
 .ramens {
   text-align: left;
+}
+
+.recents {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+
+.profile-image {
+  width: 50px;
+  border-radius: 50%;
+  float: left;
+
+}
+
+.line-item {
+  margin: 4px;
+
 }
