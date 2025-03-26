@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { useEffect, useContext } from 'react';
 import { User } from './User';
-import { collection, getDoc, setDoc, query, doc, onSnapshot, deleteDoc, addDoc, orderBy } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import db from '../../db';
 
 
@@ -37,6 +37,7 @@ function Nav(props) {
     ],
   };
 
+  
   useEffect(() => {
 
     const unregisteredAuthObserver = firebase.auth().onAuthStateChanged((user) => {
@@ -52,7 +53,7 @@ function Nav(props) {
 
   const saveP2R = async () => {
 
-    const docRef2 = await addDoc(collection(db, "users", user.uid, "p2r-data"), {
+    await addDoc(collection(db, "users", user.uid, "p2r-data"), {
       displayName: user.displayName,
       uid: user.uid,
       photoURL: user.photoURL,

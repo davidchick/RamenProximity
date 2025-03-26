@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { User } from "./User";
-import { collection, getDoc, setDoc, query, doc, onSnapshot, deleteDoc, addDoc, orderBy, limit } from "firebase/firestore";
+import { collectionGroup, query, onSnapshot, orderBy } from "firebase/firestore";
 import db from '../../db'
 
 
 function RecentActivity() {
 
-  const { user, setUser } = useContext(User);
+  const { user } = useContext(User);
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+
+  const recentUsers = {};
 
   useEffect(() => {
 
@@ -17,7 +19,7 @@ function RecentActivity() {
 
       try {
 
-        const q = await query(collection(db, "users", user.uid, "p2r-data"), orderBy("timestamp", "desc"), limit(5));
+        const q = query(collectionGroup(db, 'p2r-data'), orderBy("timestamp", "desc"));
 
         onSnapshot(q, (doc) => {
           setEntries(doc.docs)
@@ -51,13 +53,17 @@ function RecentActivity() {
     return <h2>Error!!!</h2>
   }
 
-  if (user) {
 
-    return (
-      <>
-        <h3>Recent Activity:</h3>
 
-        {entries.map((entry, key) => {
+  return (
+    <>
+      <h3>Recent Activity:</h3>
+
+      {entries.map((entry, key) => {
+
+        if (!recentUsers[entry.data().uid]) {
+
+          recentUsers[entry.data().uid] = true;
 
           return (
             <div className="recents" key={key}>
@@ -73,16 +79,12 @@ function RecentActivity() {
               </div>
             </div>
           )
-        })}
 
-      </>
-    )
+        }
 
-  } else {
-
-    return (<></>)
-
-  }
+      })}
+    </>
+  )
 
 }
 

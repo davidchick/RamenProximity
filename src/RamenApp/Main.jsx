@@ -10,8 +10,7 @@ function Main() {
   const [restaurants, setRestaurants] = useState([]);
   const [p2r, setP2R] = useState(0);
   const location = GetLocation();
-  const { user, setUser } = useContext(User);
-  //let map;
+  const { user } = useContext(User);
 
   useEffect(() => {
 
@@ -83,9 +82,7 @@ function Main() {
           })}
         </div>
 
-        <div>
-          <RecentActivity />
-        </div>
+        {user ?  <div><RecentActivity /></div> : ''}
 
       </>
 
