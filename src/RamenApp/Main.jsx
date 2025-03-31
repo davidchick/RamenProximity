@@ -57,7 +57,7 @@ function Main() {
   }, [location]);
 
 
-  if (location) {
+  if (location.lat && restaurants.length) {
 
     return (
 
